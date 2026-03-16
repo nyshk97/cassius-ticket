@@ -1,14 +1,21 @@
 service: cassius-ticket
 
-image: cassius-ticket
+image: nyshk97/cassius-ticket
 
 servers:
   web:
     - 198.13.52.210
 
 proxy:
-  ssl: true
-  host: ticket.example.com  # TODO: 実際のドメインに変更
+  ssl: false
+  healthcheck:
+    path: /up
+    interval: 3
+  response_timeout: 30
+  forward_headers: true
+  run:
+    http_port: 8080
+    https_port: 8443
 
 registry:
   server: ghcr.io

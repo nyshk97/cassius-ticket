@@ -21,9 +21,9 @@ Rails.application.configure do
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
 
-  config.assume_ssl = true
-  config.force_ssl = true
-  config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
+  # config.assume_ssl = true
+  # config.force_ssl = true
+  # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
 
   # Log to STDOUT with the current request id as a default log tag.
   config.log_tags = [ :request_id ]
