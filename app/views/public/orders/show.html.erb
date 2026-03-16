@@ -1,46 +1,61 @@
-<div class="mb-6">
-  <h1 class="font-bold text-xl text-gray-900"><%= @event.title %></h1>
-  <p class="text-sm text-gray-500 mt-1">
-    <%= @event.event_date.strftime("%Y年%-m月%-d日") %>
-    <% if @event.venue.present? %>
-      ・<%= @event.venue %>
-    <% end %>
-  </p>
+<div class="text-center mb-8 mt-4">
+  <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 text-green-500 rounded-full mb-4 shadow-sm">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-8 h-8">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+    </svg>
+  </div>
+  <h1 class="text-2xl font-bold text-gray-900 mb-2 tracking-tight">注文が完了しました</h1>
+  <p class="text-sm text-gray-500">ありがとうございます！</p>
 </div>
 
-<div class="bg-white rounded-lg border border-gray-200 p-6">
-  <div class="text-center mb-6">
-    <p class="text-green-600 font-semibold text-lg">注文が完了しました</p>
-    <p class="text-sm text-gray-500 mt-1">ありがとうございます！</p>
-  </div>
-
-  <div class="border-t border-gray-100 pt-4 space-y-3">
+<div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm mb-6">
+  <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 pb-2 border-b border-gray-100">注文内容の確認</h2>
+  
+  <div class="space-y-4">
     <div>
-      <p class="text-xs text-gray-400">お名前</p>
-      <p class="text-gray-900"><%= @order.customer_name %></p>
+      <p class="text-xs text-gray-500 mb-0.5">イベント名</p>
+      <p class="text-gray-900 font-semibold"><%= @event.title %></p>
     </div>
 
     <div>
-      <p class="text-xs text-gray-400 mb-1">注文内容</p>
+      <p class="text-xs text-gray-500 mb-0.5">お名前</p>
+      <p class="text-gray-900 font-semibold"><%= @order.customer_name %> <span class="text-sm font-normal text-gray-500 ml-1">様</span></p>
+    </div>
+
+    <div class="bg-gray-50 rounded-xl p-4">
       <% @order.order_items.includes(:ticket_type).each do |item| %>
-        <div class="flex justify-between text-sm py-1">
-          <span class="text-gray-700"><%= item.ticket_type.name %> × <%= item.quantity %>枚</span>
-          <span class="text-gray-900"><%= number_to_currency(item.quantity * item.ticket_type.price, unit: "¥", strip_insignificant_zeros: true) %></span>
+        <div class="flex justify-between items-center py-1.5 border-b border-gray-200/60 last:border-0">
+          <div class="flex flex-col">
+            <span class="text-gray-900 font-medium"><%= item.ticket_type.name %></span>
+            <span class="text-xs text-gray-500"><%= number_to_currency(item.ticket_type.price, unit: "¥", strip_insignificant_zeros: true) %></span>
+          </div>
+          <div class="text-right">
+            <span class="text-gray-500 text-sm mr-2">× <%= item.quantity %></span>
+            <span class="text-gray-900 font-semibold"><%= number_to_currency(item.quantity * item.ticket_type.price, unit: "¥", strip_insignificant_zeros: true) %></span>
+          </div>
         </div>
       <% end %>
-      <div class="flex justify-between font-medium border-t border-gray-100 pt-2 mt-2">
-        <span>合計</span>
-        <span><%= number_to_currency(@order.total_amount, unit: "¥", strip_insignificant_zeros: true) %></span>
+      
+      <div class="flex justify-between items-end pt-3 mt-1 border-t border-gray-200">
+        <span class="text-gray-500 font-medium">合計金額</span>
+        <span class="text-blue-600 font-bold text-xl"><%= number_to_currency(@order.total_amount, unit: "¥", strip_insignificant_zeros: true) %></span>
       </div>
     </div>
 
     <% if @order.note.present? %>
       <div>
-        <p class="text-xs text-gray-400">備考</p>
-        <p class="text-sm text-gray-700 whitespace-pre-wrap"><%= @order.note %></p>
+        <p class="text-xs text-gray-500 mb-0.5">備考</p>
+        <p class="text-sm text-gray-700 whitespace-pre-wrap bg-gray-50 p-3 rounded-lg"><%= @order.note %></p>
       </div>
     <% end %>
   </div>
+</div>
 
-  <p class="text-xs text-gray-400 mt-6 text-center">お支払い・チケット受け渡しの詳細はジムにてご確認ください。</p>
+<div class="text-center px-4">
+  <p class="text-sm text-gray-600 leading-relaxed bg-blue-50 text-blue-800 p-4 rounded-xl">
+    チケットの受け渡しとお支払いについては、<br>ジムにてマネージャーに直接ご確認ください。
+  </p>
+  <p class="text-xs text-gray-400 mt-6">
+    この画面はスクリーンショット等で保存しておくことをおすすめします。
+  </p>
 </div>

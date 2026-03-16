@@ -1,8 +1,8 @@
-<%= form_with model: event, class: "space-y-6" do |f| %>
+<%= form_with model: event, class: "space-y-5" do |f| %>
   <% if event.errors.any? %>
-    <div class="bg-red-50 text-red-600 rounded-lg p-4 text-sm">
-      <p class="font-medium mb-2"><%= event.errors.count %>件のエラーがあります:</p>
-      <ul class="list-disc list-inside">
+    <div class="bg-red-50 text-red-600 rounded-lg p-4 text-sm shadow-sm border border-red-100">
+      <p class="font-semibold mb-2"><%= event.errors.count %>件のエラーがあります:</p>
+      <ul class="list-disc list-inside space-y-1">
         <% event.errors.full_messages.each do |msg| %>
           <li><%= msg %></li>
         <% end %>
@@ -10,31 +10,34 @@
     </div>
   <% end %>
 
-  <div>
-    <%= f.label :title, "イベント名", class: "block text-sm font-medium text-gray-700 mb-1" %>
-    <%= f.text_field :title, required: true, class: "block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-blue-600", placeholder: "例: ○○興行 2026年4月" %>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm space-y-4">
     <div>
-      <%= f.label :event_date, "開催日", class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= f.date_field :event_date, required: true, class: "block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-blue-600" %>
+      <%= f.label :title, "イベント名", class: "block text-sm font-bold text-gray-700 mb-1.5" %>
+      <%= f.text_field :title, required: true, class: "block w-full rounded-lg border border-gray-300 px-3.5 py-2.5 text-base focus:border-blue-500 focus:ring focus:ring-blue-200 transition-shadow", placeholder: "例: ○○興行 2026年4月" %>
     </div>
+
     <div>
-      <%= f.label :venue, "会場", class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= f.text_field :venue, class: "block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-blue-600", placeholder: "例: 後楽園ホール" %>
+      <%= f.label :event_date, "開催日", class: "block text-sm font-bold text-gray-700 mb-1.5" %>
+      <%= f.date_field :event_date, required: true, class: "block w-full rounded-lg border border-gray-300 px-3.5 py-2.5 text-base focus:border-blue-500 focus:ring focus:ring-blue-200 transition-shadow" %>
+    </div>
+    
+    <div>
+      <%= f.label :venue, "会場", class: "block text-sm font-bold text-gray-700 mb-1.5" %>
+      <%= f.text_field :venue, class: "block w-full rounded-lg border border-gray-300 px-3.5 py-2.5 text-base focus:border-blue-500 focus:ring focus:ring-blue-200 transition-shadow", placeholder: "例: 後楽園ホール" %>
+    </div>
+
+    <div>
+      <%= f.label :description, "説明・備考", class: "block text-sm font-bold text-gray-700 mb-1.5" %>
+      <%= f.text_area :description, rows: 3, class: "block w-full rounded-lg border border-gray-300 px-3.5 py-2.5 text-base focus:border-blue-500 focus:ring focus:ring-blue-200 transition-shadow", placeholder: "任意" %>
     </div>
   </div>
 
-  <div>
-    <%= f.label :description, "説明・備考", class: "block text-sm font-medium text-gray-700 mb-1" %>
-    <%= f.text_area :description, rows: 3, class: "block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-blue-600", placeholder: "任意" %>
-  </div>
+  <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm" data-controller="nested-form">
+    <h3 class="text-sm font-bold text-gray-700 mb-3 flex justify-between items-center">
+      <span>チケット種別</span>
+    </h3>
 
-  <fieldset class="border border-gray-200 rounded-lg p-4" data-controller="nested-form">
-    <legend class="text-sm font-medium text-gray-700 px-2">チケット種別</legend>
-
-    <div data-nested-form-target="container" class="space-y-3 mt-2">
+    <div data-nested-form-target="container" class="space-y-4 mb-4">
       <%= f.fields_for :ticket_types do |tf| %>
         <%= render "ticket_type_fields", f: tf %>
       <% end %>
@@ -46,13 +49,18 @@
       <% end %>
     </template>
 
-    <button type="button" data-action="nested-form#add" class="mt-3 text-sm text-blue-600 hover:text-blue-500 font-medium cursor-pointer">
-      + チケット種別を追加
+    <button type="button" data-action="nested-form#add" class="w-full flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-gray-300 px-4 py-3 text-sm font-semibold text-gray-600 hover:text-blue-600 hover:border-blue-400 hover:bg-blue-50 transition-colors cursor-pointer">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+      </svg>
+      チケット種別を追加
     </button>
-  </fieldset>
+  </div>
 
-  <div class="flex items-center gap-3 pt-2">
-    <%= f.submit event.persisted? ? "更新する" : "作成する", class: "rounded-md px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium cursor-pointer" %>
-    <%= link_to "キャンセル", event.persisted? ? event_path(event) : events_path, class: "text-sm text-gray-500 hover:text-gray-700" %>
+  <div class="pt-4 sticky bottom-4">
+    <%= f.submit event.persisted? ? "更新する" : "作成する", class: "w-full rounded-xl px-5 py-3.5 bg-gray-900 hover:bg-gray-800 text-white font-bold text-lg shadow-lg cursor-pointer transition-transform active:scale-95" %>
+    <div class="text-center mt-4">
+      <%= link_to "キャンセル", event.persisted? ? event_path(event) : events_path, class: "text-sm font-medium text-gray-500 hover:text-gray-900 px-4 py-2" %>
+    </div>
   </div>
 <% end %>
