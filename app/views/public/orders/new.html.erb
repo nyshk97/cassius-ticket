@@ -26,7 +26,7 @@
 <div class="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm">
   <h2 class="font-bold text-lg text-gray-900 mb-4 pb-2 border-b border-gray-100">チケット注文</h2>
 
-  <%= form_with model: [@event, @order], url: event_orders_path(@event.token), class: "space-y-6" do |f| %>
+  <%= form_with model: [@event, @order], url: public_event_orders_path(@event.token), class: "space-y-6" do |f| %>
     <% if @order.errors.any? %>
       <div class="bg-red-50 text-red-600 rounded-lg p-4 text-sm border border-red-100">
         <ul class="list-disc list-inside space-y-1">
