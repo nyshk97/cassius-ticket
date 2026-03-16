@@ -35,7 +35,7 @@ module Public
     private
 
     def set_event
-      @event = Event.find_by!(token: params[:event_token])
+      @event = Event.find_by!(token: params[:public_event_token])
     end
 
     def ensure_event_open
