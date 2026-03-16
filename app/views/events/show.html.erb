@@ -11,7 +11,7 @@
 </div>
 
 <div class="bg-white rounded-lg border border-gray-200 p-6 mb-6">
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
     <div>
       <p class="text-xs text-gray-400 mb-1">開催日</p>
       <p class="text-gray-900"><%= @event.event_date.strftime("%Y年%-m月%-d日") %></p>
@@ -26,6 +26,13 @@
         <%= @event.open? ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' %>">
         <%= @event.status_i18n %>
       </span>
+    </div>
+    <div>
+      <p class="text-xs text-gray-400 mb-1">注文フォームURL</p>
+      <% order_url = new_event_order_url(@event.token) %>
+      <input type="text" value="<%= order_url %>" readonly
+        class="text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded px-2 py-1 w-full cursor-text"
+        onclick="this.select()">
     </div>
   </div>
 
@@ -45,13 +52,16 @@
         <tr class="border-b border-gray-200 text-left text-gray-500">
           <th class="pb-2 font-medium">種別名</th>
           <th class="pb-2 font-medium">価格</th>
+          <th class="pb-2 font-medium text-right">注文枚数</th>
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100">
         <% @event.ticket_types.each do |tt| %>
+          <% total_qty = @orders.sum { |o| o.order_items.select { |oi| oi.ticket_type_id == tt.id }.sum(&:quantity) } %>
           <tr>
             <td class="py-2 text-gray-900"><%= tt.name %></td>
             <td class="py-2 text-gray-900"><%= number_to_currency(tt.price, unit: "¥", strip_insignificant_zeros: true) %></td>
+            <td class="py-2 text-gray-900 text-right"><%= total_qty %>枚</td>
           </tr>
         <% end %>
       </tbody>
@@ -64,10 +74,71 @@
 <div class="bg-white rounded-lg border border-gray-200 p-6">
   <div class="flex items-center justify-between mb-4">
     <h2 class="font-semibold text-lg">注文一覧</h2>
-    <span class="text-sm text-gray-400"><%= @event.orders.count %>件</span>
+    <div class="flex items-center gap-3">
+      <span class="text-sm text-gray-400"><%= @orders.size %>件</span>
+    </div>
   </div>
-  <% if @event.orders.any? %>
-    <p class="text-gray-400 text-sm">（注文管理は後ほど実装）</p>
+
+  <% if @orders.any? %>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-gray-200 text-left text-gray-500">
+            <th class="pb-2 font-medium">名前</th>
+            <th class="pb-2 font-medium">注文内容</th>
+            <th class="pb-2 font-medium text-right">合計</th>
+            <th class="pb-2 font-medium text-center">支払い</th>
+            <th class="pb-2 font-medium text-center">受渡</th>
+            <th class="pb-2 font-medium text-right">注文日時</th>
+            <th class="pb-2 font-medium"></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <% @orders.each do |order| %>
+            <tr>
+              <td class="py-3 text-gray-900 font-medium whitespace-nowrap"><%= order.customer_name %></td>
+              <td class="py-3 text-gray-600">
+                <% order.order_items.each do |item| %>
+                  <span class="inline-block mr-2 whitespace-nowrap"><%= item.ticket_type.name %> ×<%= item.quantity %></span>
+                <% end %>
+              </td>
+              <td class="py-3 text-gray-900 text-right whitespace-nowrap"><%= number_to_currency(order.total_amount, unit: "¥", strip_insignificant_zeros: true) %></td>
+              <td class="py-3 text-center">
+                <%= button_to toggle_payment_event_order_path(@event, order), method: :patch, class: "cursor-pointer" do %>
+                  <span class="text-xs px-2 py-1 rounded-full font-medium
+                    <%= order.payment_status_paid? ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' %>">
+                    <%= order.payment_status_i18n %>
+                  </span>
+                <% end %>
+              </td>
+              <td class="py-3 text-center">
+                <%= button_to toggle_delivery_event_order_path(@event, order), method: :patch, class: "cursor-pointer" do %>
+                  <span class="text-xs px-2 py-1 rounded-full font-medium
+                    <%= order.delivery_status_delivered? ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500' %>">
+                    <%= order.delivery_status_i18n %>
+                  </span>
+                <% end %>
+              </td>
+              <td class="py-3 text-gray-400 text-right text-xs whitespace-nowrap"><%= order.created_at.strftime("%-m/%-d %H:%M") %></td>
+              <td class="py-3 text-right">
+                <div class="flex items-center justify-end gap-2">
+                  <%= link_to "詳細", event_order_path(@event, order), class: "text-xs text-blue-600 hover:text-blue-500" %>
+                  <%= button_to "削除", event_order_path(@event, order), method: :delete,
+                      data: { turbo_confirm: "#{order.customer_name}の注文を削除しますか？" },
+                      class: "text-xs text-red-400 hover:text-red-600 cursor-pointer" %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-4 pt-4 border-t border-gray-100 flex gap-6 text-sm text-gray-500">
+      <span>合計金額: <strong class="text-gray-900"><%= number_to_currency(@orders.sum(&:total_amount), unit: "¥", strip_insignificant_zeros: true) %></strong></span>
+      <span>支払済: <strong class="text-green-700"><%= @orders.count(&:payment_status_paid?) %>/<%= @orders.size %></strong></span>
+      <span>受渡済: <strong class="text-blue-700"><%= @orders.count(&:delivery_status_delivered?) %>/<%= @orders.size %></strong></span>
+    </div>
   <% else %>
     <p class="text-gray-400 text-sm">まだ注文はありません。</p>
   <% end %>

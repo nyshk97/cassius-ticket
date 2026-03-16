@@ -6,6 +6,7 @@ class EventsController < ApplicationController
   end
 
   def show
+    @orders = @event.orders.includes(order_items: :ticket_type).order(created_at: :desc)
   end
 
   def new

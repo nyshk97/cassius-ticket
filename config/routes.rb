@@ -5,6 +5,12 @@ Rails.application.routes.draw do
     member do
       patch :toggle_status
     end
+    resources :orders, only: %i[show destroy], controller: "admin/orders" do
+      member do
+        patch :toggle_payment
+        patch :toggle_delivery
+      end
+    end
   end
 
   # 会員向け公開ページ（認証不要）
