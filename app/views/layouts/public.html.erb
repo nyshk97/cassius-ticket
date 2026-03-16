@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "チケット注文" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="min-h-screen bg-gray-50">
+    <main class="max-w-lg mx-auto px-4 py-8">
+      <% if flash[:notice] %>
+        <p class="mb-6 py-2 px-4 bg-green-50 text-green-700 rounded-lg text-sm"><%= flash[:notice] %></p>
+      <% end %>
+      <% if flash[:alert] %>
+        <p class="mb-6 py-2 px-4 bg-red-50 text-red-500 rounded-lg text-sm"><%= flash[:alert] %></p>
+      <% end %>
+
+      <%= yield %>
+    </main>
+  </body>
+</html>
