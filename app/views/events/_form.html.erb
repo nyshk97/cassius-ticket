@@ -1,0 +1,58 @@
+<%= form_with model: event, class: "space-y-6" do |f| %>
+  <% if event.errors.any? %>
+    <div class="bg-red-50 text-red-600 rounded-lg p-4 text-sm">
+      <p class="font-medium mb-2"><%= event.errors.count %>件のエラーがあります:</p>
+      <ul class="list-disc list-inside">
+        <% event.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :title, "イベント名", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= f.text_field :title, required: true, class: "block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-blue-600", placeholder: "例: ○○興行 2026年4月" %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <%= f.label :event_date, "開催日", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.date_field :event_date, required: true, class: "block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-blue-600" %>
+    </div>
+    <div>
+      <%= f.label :venue, "会場", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :venue, class: "block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-blue-600", placeholder: "例: 後楽園ホール" %>
+    </div>
+  </div>
+
+  <div>
+    <%= f.label :description, "説明・備考", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= f.text_area :description, rows: 3, class: "block w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-blue-600", placeholder: "任意" %>
+  </div>
+
+  <fieldset class="border border-gray-200 rounded-lg p-4" data-controller="nested-form">
+    <legend class="text-sm font-medium text-gray-700 px-2">チケット種別</legend>
+
+    <div data-nested-form-target="container" class="space-y-3 mt-2">
+      <%= f.fields_for :ticket_types do |tf| %>
+        <%= render "ticket_type_fields", f: tf %>
+      <% end %>
+    </div>
+
+    <template data-nested-form-target="template">
+      <%= f.fields_for :ticket_types, TicketType.new, child_index: "NEW_RECORD" do |tf| %>
+        <%= render "ticket_type_fields", f: tf %>
+      <% end %>
+    </template>
+
+    <button type="button" data-action="nested-form#add" class="mt-3 text-sm text-blue-600 hover:text-blue-500 font-medium cursor-pointer">
+      + チケット種別を追加
+    </button>
+  </fieldset>
+
+  <div class="flex items-center gap-3 pt-2">
+    <%= f.submit event.persisted? ? "更新する" : "作成する", class: "rounded-md px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium cursor-pointer" %>
+    <%= link_to "キャンセル", event.persisted? ? event_path(event) : events_path, class: "text-sm text-gray-500 hover:text-gray-700" %>
+  </div>
+<% end %>

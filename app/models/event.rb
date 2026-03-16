@@ -1,6 +1,8 @@
 class Event < ApplicationRecord
-  has_many :ticket_types, -> { order(:position) }, dependent: :destroy
+  has_many :ticket_types, -> { order(:position) }, dependent: :destroy, inverse_of: :event
   has_many :orders, dependent: :destroy
+
+  accepts_nested_attributes_for :ticket_types, allow_destroy: true, reject_if: :all_blank
 
   enum :status, { open: 0, closed: 1 }
 
@@ -10,8 +12,14 @@ class Event < ApplicationRecord
 
   before_validation :generate_token, on: :create
 
+  STATUS_LABELS = { "open" => "受付中", "closed" => "締切" }.freeze
+
   def to_param
     token
+  end
+
+  def status_i18n
+    STATUS_LABELS[status] || status
   end
 
   private

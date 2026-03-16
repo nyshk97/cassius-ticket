@@ -11,20 +11,34 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="min-h-screen bg-gray-50">
+    <% if authenticated? %>
+      <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div class="flex items-center gap-6">
+            <%= link_to "Cassius Ticket", root_path, class: "font-bold text-lg text-gray-900" %>
+          </div>
+          <%= button_to "ログアウト", session_path, method: :delete, class: "text-sm text-gray-500 hover:text-gray-700 cursor-pointer" %>
+        </div>
+      </nav>
+    <% end %>
+
+    <main class="max-w-5xl mx-auto px-4 py-8">
+      <% if flash[:notice] %>
+        <p class="mb-6 py-2 px-4 bg-green-50 text-green-700 rounded-lg text-sm" id="notice"><%= flash[:notice] %></p>
+      <% end %>
+      <% if flash[:alert] %>
+        <p class="mb-6 py-2 px-4 bg-red-50 text-red-500 rounded-lg text-sm" id="alert"><%= flash[:alert] %></p>
+      <% end %>
+
       <%= yield %>
     </main>
   </body>

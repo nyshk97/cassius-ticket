@@ -1,0 +1,78 @@
+<div class="flex items-center justify-between mb-6">
+  <h1 class="font-bold text-2xl"><%= @event.title %></h1>
+  <div class="flex items-center gap-3">
+    <%= button_to @event.open? ? "締め切る" : "受付再開", toggle_status_event_path(@event), method: :patch,
+        class: "text-sm px-3 py-1.5 rounded-md border cursor-pointer #{@event.open? ? 'border-orange-300 text-orange-600 hover:bg-orange-50' : 'border-green-300 text-green-600 hover:bg-green-50'}" %>
+    <%= link_to "編集", edit_event_path(@event), class: "text-sm px-3 py-1.5 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-50" %>
+    <%= button_to "削除", event_path(@event), method: :delete,
+        data: { turbo_confirm: "本当に削除しますか？" },
+        class: "text-sm px-3 py-1.5 rounded-md border border-red-200 text-red-500 hover:bg-red-50 cursor-pointer" %>
+  </div>
+</div>
+
+<div class="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div>
+      <p class="text-xs text-gray-400 mb-1">開催日</p>
+      <p class="text-gray-900"><%= @event.event_date.strftime("%Y年%-m月%-d日") %></p>
+    </div>
+    <div>
+      <p class="text-xs text-gray-400 mb-1">会場</p>
+      <p class="text-gray-900"><%= @event.venue.presence || "—" %></p>
+    </div>
+    <div>
+      <p class="text-xs text-gray-400 mb-1">ステータス</p>
+      <span class="text-xs px-2 py-1 rounded-full font-medium
+        <%= @event.open? ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' %>">
+        <%= @event.status_i18n %>
+      </span>
+    </div>
+  </div>
+
+  <% if @event.description.present? %>
+    <div class="mt-4 pt-4 border-t border-gray-100">
+      <p class="text-xs text-gray-400 mb-1">説明</p>
+      <p class="text-gray-700 text-sm whitespace-pre-wrap"><%= @event.description %></p>
+    </div>
+  <% end %>
+</div>
+
+<div class="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+  <h2 class="font-semibold text-lg mb-4">チケット種別</h2>
+  <% if @event.ticket_types.any? %>
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="border-b border-gray-200 text-left text-gray-500">
+          <th class="pb-2 font-medium">種別名</th>
+          <th class="pb-2 font-medium">価格</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <% @event.ticket_types.each do |tt| %>
+          <tr>
+            <td class="py-2 text-gray-900"><%= tt.name %></td>
+            <td class="py-2 text-gray-900"><%= number_to_currency(tt.price, unit: "¥", strip_insignificant_zeros: true) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="text-gray-400 text-sm">チケット種別がまだ設定されていません。</p>
+  <% end %>
+</div>
+
+<div class="bg-white rounded-lg border border-gray-200 p-6">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="font-semibold text-lg">注文一覧</h2>
+    <span class="text-sm text-gray-400"><%= @event.orders.count %>件</span>
+  </div>
+  <% if @event.orders.any? %>
+    <p class="text-gray-400 text-sm">（注文管理は後ほど実装）</p>
+  <% else %>
+    <p class="text-gray-400 text-sm">まだ注文はありません。</p>
+  <% end %>
+</div>
+
+<div class="mt-4">
+  <%= link_to "← 一覧に戻る", events_path, class: "text-sm text-gray-500 hover:text-gray-700" %>
+</div>

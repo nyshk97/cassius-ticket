@@ -1,0 +1,23 @@
+<div class="nested-fields flex items-end gap-3" data-nested-form-target="field">
+  <%= f.hidden_field :id %>
+  <div class="flex-1">
+    <%= f.label :name, "種別名", class: "block text-xs text-gray-500 mb-1" %>
+    <%= f.text_field :name, class: "block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-blue-600", placeholder: "例: SRS席" %>
+  </div>
+  <div class="w-32">
+    <%= f.label :price, "価格（円）", class: "block text-xs text-gray-500 mb-1" %>
+    <%= f.number_field :price, min: 0, class: "block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-blue-600", placeholder: "5000" %>
+  </div>
+  <div class="w-20">
+    <%= f.label :position, "並び順", class: "block text-xs text-gray-500 mb-1" %>
+    <%= f.number_field :position, value: f.object.position || 0, class: "block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-blue-600" %>
+  </div>
+  <div class="pb-0.5">
+    <% if f.object.persisted? %>
+      <%= f.check_box :_destroy, { class: "hidden peer", data: { action: "nested-form#markForDestroy" } }, "1", "0" %>
+      <button type="button" data-action="nested-form#remove" class="text-red-400 hover:text-red-600 text-sm cursor-pointer">削除</button>
+    <% else %>
+      <button type="button" data-action="nested-form#remove" class="text-red-400 hover:text-red-600 text-sm cursor-pointer">削除</button>
+    <% end %>
+  </div>
+</div>
