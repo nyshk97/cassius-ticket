@@ -13,9 +13,6 @@ proxy:
     interval: 3
   response_timeout: 30
   forward_headers: true
-  run:
-    http_port: 8080
-    https_port: 8443
 
 registry:
   server: ghcr.io
