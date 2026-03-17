@@ -1,10 +1,10 @@
 <div class="nested-fields bg-gray-50 rounded-lg border border-gray-200 p-3 relative" data-nested-form-target="field">
   <%= f.hidden_field :id %>
-  
+
   <div class="grid grid-cols-2 gap-3 mb-3">
     <div class="col-span-2">
       <%= f.label :name, "種別名", class: "block text-xs font-semibold text-gray-600 mb-1" %>
-      <%= f.text_field :name, class: "block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring focus:ring-blue-200", placeholder: "例: SRS席" %>
+      <%= f.text_field :name, class: "block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring focus:ring-blue-200", placeholder: "例：S席" %>
     </div>
     <div>
       <%= f.label :price, "価格（円）", class: "block text-xs font-semibold text-gray-600 mb-1" %>
@@ -15,7 +15,7 @@
       <%= f.number_field :position, value: f.object.position || 0, class: "block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring focus:ring-blue-200" %>
     </div>
   </div>
-  
+
   <div class="flex justify-end border-t border-gray-200 pt-2">
     <% if f.object.persisted? %>
       <%= f.check_box :_destroy, { class: "hidden peer", data: { action: "nested-form#markForDestroy" } }, "1", "0" %>
