@@ -63,7 +63,7 @@ docker compose exec web bin/rails db:setup
 
 ## デプロイ
 
-Kamal 2 でVPSにデプロイ。kamal-proxy が SSL (Let's Encrypt) を自動管理し、`tools97.com` でアクセス可能。
+Kamal 2 でVPSにデプロイ。kamal-proxy が SSL (Let's Encrypt) を自動管理し、`cassius-ticket.tools97.com` でアクセス可能。
 
 ```bash
 # KAMAL_REGISTRY_PASSWORD に GitHub PAT を設定
@@ -81,7 +81,7 @@ docker run --rm \
 
 ## URL 構成
 
-本番: `https://tools97.com`
+本番: `https://cassius-ticket.tools97.com`
 
 | パス                   | 用途                             |
 | ---------------------- | -------------------------------- |

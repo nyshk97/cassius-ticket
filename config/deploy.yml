@@ -8,7 +8,7 @@ servers:
 
 proxy:
   ssl: true
-  host: tools97.com
+  host: cassius-ticket.tools97.com
   healthcheck:
     path: /up
     interval: 3
