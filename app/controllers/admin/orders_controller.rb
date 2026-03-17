@@ -12,13 +12,15 @@ module Admin
     end
 
     def toggle_payment
-      @order.payment_status_unpaid? ? @order.payment_status_paid! : @order.payment_status_unpaid!
-      redirect_to event_path(@event), notice: "#{@order.customer_name}の支払い状況を「#{@order.payment_status_i18n}」に変更しました。"
+      new_status = @order.payment_status_unpaid? ? :paid : :unpaid
+      @order.update_column(:payment_status, Order.payment_statuses[new_status])
+      redirect_to event_path(@event), notice: "#{@order.customer_name}の支払い状況を「#{@order.reload.payment_status_i18n}」に変更しました。"
     end
 
     def toggle_delivery
-      @order.delivery_status_undelivered? ? @order.delivery_status_delivered! : @order.delivery_status_undelivered!
-      redirect_to event_path(@event), notice: "#{@order.customer_name}の受渡状況を「#{@order.delivery_status_i18n}」に変更しました。"
+      new_status = @order.delivery_status_undelivered? ? :delivered : :undelivered
+      @order.update_column(:delivery_status, Order.delivery_statuses[new_status])
+      redirect_to event_path(@event), notice: "#{@order.customer_name}の受渡状況を「#{@order.reload.delivery_status_i18n}」に変更しました。"
     end
 
     private

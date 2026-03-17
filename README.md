@@ -97,7 +97,7 @@ docker run --rm \
 | -        | `/`, `/events`                 | events#index              | イベント一覧（未ログイン時はログイン画面へ） |
 | -        | `/session/new`                 | sessions#new              | 管理者ログインフォーム                       |
 | -        | `/events/new`                  | events#new                | イベント新規作成フォーム                     |
-| -        | `/events/:id`                  | events#show               | イベント詳細・注文管理                       |
+| ✅        | `/events/:id`                  | events#show               | イベント詳細・注文管理                       |
 | -        | `/events/:id/edit`             | events#edit               | イベント編集フォーム                         |
 | -        | `/events/:event_id/orders/:id` | admin/orders#show         | 管理者向け注文詳細                           |
 | ✅        | `/e/:token/orders/new`         | public/orders#new         | 会員向け注文フォーム（認証不要）             |

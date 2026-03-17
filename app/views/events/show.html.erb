@@ -88,53 +88,44 @@
       <% end %>
     </div>
 
-    <div class="space-y-4">
+    <div class="space-y-2">
       <% @orders.each do |order| %>
-        <div class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
-          <div class="flex justify-between items-start mb-3">
-            <div>
-              <p class="font-bold text-gray-900 text-lg leading-tight"><%= order.customer_name %></p>
-              <p class="text-xs text-gray-400 mt-0.5"><%= order.created_at.strftime("%-m/%-d %H:%M") %></p>
+        <div class="bg-white rounded-lg border border-gray-200 px-3 py-2.5 shadow-sm hover:border-gray-300 transition-colors">
+          <div class="flex justify-between items-baseline gap-2 mb-1.5">
+            <div class="flex items-baseline gap-2 min-w-0">
+              <span class="font-semibold text-gray-900 text-sm truncate"><%= order.customer_name %></span>
+              <span class="text-xs text-gray-400 shrink-0"><%= order.created_at.strftime("%-m/%-d %H:%M") %></span>
             </div>
-            <p class="font-bold text-gray-900 text-lg"><%= number_to_currency(order.total_amount, unit: "¥", strip_insignificant_zeros: true) %></p>
+            <span class="font-semibold text-gray-900 text-sm shrink-0"><%= number_to_currency(order.total_amount, unit: "¥", strip_insignificant_zeros: true) %></span>
           </div>
-          
-          <div class="bg-gray-50/80 rounded-lg p-3 mb-4">
-            <% order.order_items.each do |item| %>
-              <div class="flex justify-between text-sm py-0.5">
-                <span class="text-gray-600"><%= item.ticket_type.name %></span>
-                <span class="font-medium text-gray-900"><%= item.quantity %>枚</span>
-              </div>
-            <% end %>
-            <% if order.note.present? %>
-              <div class="mt-2.5 pt-2.5 border-t border-gray-200">
-                <p class="text-xs text-gray-500"><span class="font-medium text-gray-600">備考:</span> <%= truncate(order.note, length: 30) %></p>
-              </div>
-            <% end %>
-          </div>
-
-          <div class="flex items-center justify-between">
-            <div class="flex gap-2">
-              <%= button_to toggle_payment_event_order_path(@event, order), method: :patch, class: "cursor-pointer" do %>
-                <span class="text-xs px-3 py-1.5 rounded-full font-semibold border transition-colors
+          <div class="flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5">
+            <div class="flex flex-wrap items-center gap-x-2 min-w-0">
+              <span class="text-xs text-gray-600">
+                <% order.order_items.each_with_index do |item, i| %><%= " " if i > 0 %><%= item.ticket_type.name %> <%= item.quantity %>枚<% end %>
+              </span>
+              <% if order.note.present? %>
+                <span class="text-xs text-gray-400 truncate max-w-[120px]" title="<%= order.note %>">・<%= truncate(order.note, length: 12) %></span>
+              <% end %>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <%= button_to toggle_payment_event_order_path(@event, order), method: :patch, form: { data: { turbo_frame: "_top" } }, class: "cursor-pointer inline-block" do %>
+                <span class="text-[11px] px-2 py-1 rounded-full font-medium border transition-colors inline-block
                   <%= order.payment_status_paid? ? 'bg-green-50 border-green-200 text-green-700' : 'bg-white border-gray-300 text-gray-500' %>">
                   <%= order.payment_status_paid? ? '支払済' : '未払い' %>
                 </span>
               <% end %>
-              
-              <%= button_to toggle_delivery_event_order_path(@event, order), method: :patch, class: "cursor-pointer" do %>
-                <span class="text-xs px-3 py-1.5 rounded-full font-semibold border transition-colors
+              <%= button_to toggle_delivery_event_order_path(@event, order), method: :patch, form: { data: { turbo_frame: "_top" } }, class: "cursor-pointer inline-block" do %>
+                <span class="text-[11px] px-2 py-1 rounded-full font-medium border transition-colors inline-block
                   <%= order.delivery_status_delivered? ? 'bg-blue-50 border-blue-200 text-blue-700' : 'bg-white border-gray-300 text-gray-500' %>">
                   <%= order.delivery_status_delivered? ? '受渡済' : '未受渡' %>
                 </span>
               <% end %>
+              <%= link_to event_order_path(@event, order), class: "p-1.5 text-gray-400 hover:text-gray-900 rounded hover:bg-gray-100 transition-colors inline-block shrink-0" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+              <% end %>
             </div>
-            
-            <%= link_to event_order_path(@event, order), class: "p-2 text-gray-400 hover:text-gray-900 bg-gray-50 rounded-full hover:bg-gray-100 transition-colors" do %>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-              </svg>
-            <% end %>
           </div>
         </div>
       <% end %>
