@@ -17,7 +17,7 @@ module Public
       @order = @event.orders.build(order_params)
 
       if @order.save
-        redirect_to public_event_order_path(@event.token, @order), notice: "注文が完了しました！"
+        redirect_to public_event_order_path(@event.token, @order)
       else
         @event.ticket_types.each do |tt|
           unless @order.order_items.any? { |oi| oi.ticket_type_id == tt.id }
