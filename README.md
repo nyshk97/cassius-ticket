@@ -103,3 +103,6 @@ docker run --rm \
 | ✅        | `/e/:token/orders/new`         | public/orders#new         | 会員向け注文フォーム（認証不要）             |
 | ✅        | `/e/:token/orders/:id`         | public/orders#show        | 注文完了画面                                 |
 | ✅        | `/up`                          | rails/health#show         | ヘルスチェック                               |
+
+
+- `/events/:id`のUI調整

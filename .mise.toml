@@ -1,0 +1,12 @@
+[tools]
+ruby = "3.4.9"
+
+[settings]
+env_file = ".env"
+
+[settings.ruby]
+compile = false
+
+[tasks.deploy]
+description = "Kamal で本番へデプロイ"
+run = "bundle exec kamal deploy"
