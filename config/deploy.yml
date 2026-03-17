@@ -7,7 +7,8 @@ servers:
     - 198.13.52.210
 
 proxy:
-  ssl: false
+  ssl: true
+  host: tools97.com
   healthcheck:
     path: /up
     interval: 3
