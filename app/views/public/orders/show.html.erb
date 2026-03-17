@@ -1,5 +1,7 @@
-<div class="text-center mb-6 mt-4">
-  <div class="inline-flex items-center justify-center p-2.5 mb-1 rounded-full bg-emerald-50">
+<% content_for :title, "Order Completed - #{@event.title}" %>
+
+<header class="text-center mb-4" data-purpose="completion-header">
+  <div class="inline-flex items-center justify-center p-2.5 rounded-full bg-emerald-50">
     <div class="inline-flex items-center justify-center p-2.5 rounded-full bg-emerald-100/60">
       <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-500 text-white shadow-lg shadow-emerald-200/50">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-8 h-8">
@@ -8,7 +10,9 @@
       </div>
     </div>
   </div>
-  <h1 class="text-2xl font-bold text-gray-800 mb-6">注文が完了しました</h1>
+  <h1 class="text-2xl font-bold font-gothic mb-3 text-gray-900 tracking-tight">
+    注文が完了しました
+  </h1>
 
   <section class="w-full bg-blue-50 border border-blue-200 rounded-2xl p-6 mb-2 text-left">
     <div class="flex items-start gap-3">
@@ -28,22 +32,22 @@
       </div>
     </div>
   </section>
-</div>
+</header>
 
-<div class="bg-white rounded-2xl border border-gray-100 p-6 mb-6" style="box-shadow: 0 4px 20px rgba(0,0,0,0.05)">
+<section class="bg-white rounded-2xl p-8 card-shadow mb-8" data-purpose="order-details-container">
   <div class="border-b border-gray-100 pb-3 mb-4">
-    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">注文内容</span>
+    <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">注文内容</span>
   </div>
 
   <div class="space-y-4 mb-6">
     <div>
-      <p class="text-xs text-gray-400 mb-1">イベント名</p>
-      <p class="text-lg font-bold text-gray-800"><%= @event.title %></p>
+      <p class="text-xs text-gray-500 mb-1">イベント名</p>
+      <p class="text-lg font-bold text-gray-900"><%= @event.title %></p>
     </div>
 
     <div>
-      <p class="text-xs text-gray-400 mb-1">お名前</p>
-      <p class="text-base font-bold text-gray-800"><%= @order.customer_name %> <span class="text-sm font-normal text-gray-500 ml-1">様</span></p>
+      <p class="text-xs text-gray-500 mb-1">お名前</p>
+      <p class="text-base font-bold text-gray-900"><%= @order.customer_name %> <span class="text-sm font-normal text-gray-500 ml-1">様</span></p>
     </div>
   </div>
 
@@ -51,12 +55,12 @@
     <% @order.order_items.includes(:ticket_type).each do |item| %>
       <div class="flex justify-between items-end border-b border-gray-200 pb-3 last:border-0 last:pb-0">
         <div>
-          <p class="font-bold text-gray-800"><%= item.ticket_type.name %></p>
-          <p class="text-xs text-gray-400"><%= number_to_currency(item.ticket_type.price, unit: "¥", strip_insignificant_zeros: true) %></p>
+          <p class="font-bold text-gray-900"><%= item.ticket_type.name %></p>
+          <p class="text-sm text-gray-500"><%= number_to_currency(item.ticket_type.price, unit: "¥", strip_insignificant_zeros: true) %></p>
         </div>
         <div class="text-right">
-          <p class="text-xs text-gray-400 mb-1">× <%= item.quantity %></p>
-          <p class="font-bold text-gray-800"><%= number_to_currency(item.quantity * item.ticket_type.price, unit: "¥", strip_insignificant_zeros: true) %></p>
+          <p class="text-sm text-gray-500 mb-1">× <%= item.quantity %></p>
+          <p class="font-bold text-gray-900"><%= number_to_currency(item.quantity * item.ticket_type.price, unit: "¥", strip_insignificant_zeros: true) %></p>
         </div>
       </div>
     <% end %>
@@ -69,8 +73,8 @@
 
   <% if @order.note.present? %>
     <div>
-      <p class="text-xs text-gray-400 mb-2">備考</p>
+      <p class="text-xs text-gray-500 mb-2">備考</p>
       <p class="text-sm text-gray-700 whitespace-pre-wrap bg-gray-50 rounded-lg p-3 min-h-[60px]"><%= @order.note %></p>
     </div>
   <% end %>
-</div>
+</section>
