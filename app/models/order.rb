@@ -11,6 +11,7 @@ class Order < ApplicationRecord
   DELIVERY_LABELS = { "undelivered" => "未受渡", "delivered" => "受渡済" }.freeze
 
   validates :customer_name, presence: true
+  validates :phone_number, presence: true
   validate :must_have_at_least_one_item
 
   def total_amount

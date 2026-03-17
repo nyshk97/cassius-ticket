@@ -49,6 +49,13 @@
       <p class="text-xs text-gray-500 mb-1">お名前</p>
       <p class="text-base font-bold text-gray-900"><%= @order.customer_name %> <span class="text-sm font-normal text-gray-500 ml-1">様</span></p>
     </div>
+
+    <% if @order.phone_number.present? %>
+      <div>
+        <p class="text-xs text-gray-500 mb-1">電話番号</p>
+        <p class="text-base font-bold text-gray-900"><%= @order.phone_number %></p>
+      </div>
+    <% end %>
   </div>
 
   <div class="bg-gray-50 rounded-xl p-4 space-y-4 mb-6">

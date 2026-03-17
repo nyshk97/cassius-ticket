@@ -14,6 +14,10 @@
       <p class="text-gray-900 font-medium text-lg"><%= @order.customer_name %></p>
     </div>
     <div>
+      <p class="text-xs text-gray-400 mb-1">電話番号</p>
+      <p class="text-gray-900"><%= @order.phone_number.presence || "—" %></p>
+    </div>
+    <div>
       <p class="text-xs text-gray-400 mb-1">注文日時</p>
       <p class="text-gray-900"><%= @order.created_at.strftime("%Y年%-m月%-d日 %H:%M") %></p>
     </div>

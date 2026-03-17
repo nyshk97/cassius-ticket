@@ -46,7 +46,7 @@ module Public
 
     def order_params
       params.require(:order).permit(
-        :customer_name, :note,
+        :customer_name, :phone_number, :note,
         order_items_attributes: %i[ticket_type_id quantity]
       )
     end

@@ -40,6 +40,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_16_133024) do
     t.integer "event_id", null: false
     t.text "note"
     t.integer "payment_status", default: 0, null: false
+    t.string "phone_number"
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_orders_on_event_id"
   end
