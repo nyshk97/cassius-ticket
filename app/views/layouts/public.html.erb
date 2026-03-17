@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
     <title><%= content_for(:title) || "チケット注文" %></title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -13,8 +14,8 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="min-h-screen bg-gray-50 text-gray-800 antialiased font-sans">
-    <main class="max-w-md mx-auto px-4 py-6 pb-20">
+  <body class="min-h-screen bg-brand-bg flex items-center justify-center p-4 font-gothic text-gray-800 antialiased">
+    <main class="w-full max-w-lg">
       <% if flash[:notice] %>
         <p class="mb-5 py-3 px-4 bg-gray-900 text-white rounded-lg text-sm font-medium shadow-md animate-fade-in-down"><%= flash[:notice] %></p>
       <% end %>
