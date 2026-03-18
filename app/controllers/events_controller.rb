@@ -53,7 +53,7 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(
-      :title, :event_date, :venue, :description, :status,
+      :title, :player_name, :event_date, :venue, :description, :status,
       ticket_types_attributes: %i[id name price position _destroy]
     )
   end
