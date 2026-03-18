@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     member do
       patch :toggle_status
     end
-    resources :orders, only: %i[show destroy], controller: "admin/orders" do
+    resources :orders, only: %i[destroy], controller: "admin/orders" do
       member do
         patch :toggle_payment
         patch :toggle_delivery

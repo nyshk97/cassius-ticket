@@ -1,10 +1,7 @@
 module Admin
   class OrdersController < ApplicationController
     before_action :set_event
-    before_action :set_order, only: %i[show destroy toggle_payment toggle_delivery]
-
-    def show
-    end
+    before_action :set_order, only: %i[destroy toggle_payment toggle_delivery]
 
     def destroy
       @order.destroy

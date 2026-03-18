@@ -127,11 +127,16 @@
                   <%= order.delivery_status_delivered? ? '受渡済' : '未受渡' %>
                 </span>
               <% end %>
-              <%= link_to event_order_path(@event, order), class: "p-1.5 text-gray-400 hover:text-gray-900 rounded hover:bg-gray-100 transition-colors inline-block shrink-0" do %>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-              <% end %>
+              <details class="relative inline-block shrink-0" data-controller="dropdown">
+                <summary class="list-none cursor-pointer p-1.5 text-gray-400 hover:text-gray-900 rounded hover:bg-gray-100 transition-colors inline-flex items-center justify-center [&::-webkit-details-marker]:hidden">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+                  </svg>
+                </summary>
+                <div class="absolute right-0 z-10 mt-0.5 py-1 min-w-[120px] bg-white rounded-lg shadow-lg border border-gray-200">
+                  <%= button_to "削除", event_order_path(@event, order), method: :delete, form: { data: { turbo_confirm: "この注文を削除しますか？" } }, class: "w-full text-left text-sm px-3 py-2 text-red-600 hover:bg-red-50 rounded-none first:rounded-t-lg last:rounded-b-lg cursor-pointer border-0 bg-transparent" %>
+                </div>
+              </details>
             </div>
           </div>
         </div>
