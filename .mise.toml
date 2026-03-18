@@ -10,3 +10,15 @@ compile = false
 [tasks.deploy]
 description = "Kamal で本番へデプロイ"
 run = "bundle exec kamal deploy"
+
+[tasks.up]
+description = "docker compose でコンテナを起動"
+run = "docker compose up -d"
+
+[tasks.stop]
+description = "docker compose でコンテナを停止"
+run = "docker compose stop"
+
+[tasks.restart]
+description = "docker compose でコンテナを再起動"
+run = "docker compose restart"
