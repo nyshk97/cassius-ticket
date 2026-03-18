@@ -7,6 +7,7 @@ class Event < ApplicationRecord
   enum :status, { open: 0, closed: 1 }
 
   validates :title, presence: true
+  validates :player_name, presence: true
   validates :event_date, presence: true
   validates :token, presence: true, uniqueness: true
 
