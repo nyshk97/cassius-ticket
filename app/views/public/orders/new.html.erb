@@ -1,4 +1,6 @@
 <% content_for :title, "Ticket Order - #{@event.title}" %>
+<% content_for :og_title, "#{@event.player_name} #{@event.event_date.strftime("%-m/%-d")} #{@event.venue}".strip %>
+<% content_for :og_description, "#{@event.player_name}のチケット注文ページ" %>
 
 <header class="text-center mb-4" data-purpose="event-header">
   <h1 class="text-3xl font-bold font-gothic mb-1 text-gray-900 tracking-tight">

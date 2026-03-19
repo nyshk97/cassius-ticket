@@ -5,6 +5,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="description" content="<%= content_for(:og_description) || "チケット注文ページ" %>">
+    <meta property="og:title" content="<%= content_for(:og_title) || content_for(:title) || "チケット注文" %>">
+    <meta property="og:description" content="<%= content_for(:og_description) || "チケット注文ページ" %>">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="<%= image_url("logo.jpeg") %>">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= content_for(:og_title) || content_for(:title) || "チケット注文" %>">
+    <meta name="twitter:description" content="<%= content_for(:og_description) || "チケット注文ページ" %>">
+    <meta name="twitter:image" content="<%= image_url("logo.jpeg") %>">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
