@@ -32,6 +32,10 @@ module Public
       @order = @event.orders.find(params[:id])
     end
 
+    def sales_closed
+      redirect_to new_public_event_order_path(@event.token) if @event.open?
+    end
+
     private
 
     def set_event
@@ -40,7 +44,7 @@ module Public
 
     def ensure_event_open
       unless @event.open?
-        redirect_to public_event_order_path(@event.token, 0), alert: "このイベントの注文受付は終了しました。"
+        redirect_to public_event_sales_closed_path(@event.token)
       end
     end
 

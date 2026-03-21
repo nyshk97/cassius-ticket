@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
   # 会員向け公開ページ（認証不要）
   resources :events, only: [], param: :token, path: "e", as: :public_event do
+    get "sales_closed", to: "public/orders#sales_closed", as: :sales_closed
     resources :orders, only: %i[new create show], controller: "public/orders"
   end
 
