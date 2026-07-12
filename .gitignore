@@ -36,3 +36,10 @@
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+# v2 (Cloudflare Workers)
+/v2/node_modules
+/v2/.wrangler
+/v2/.dev.vars
+/v2/worker-configuration.d.ts
+/v2/public/assets

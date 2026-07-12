@@ -22,3 +22,18 @@ run = "docker compose stop"
 [tasks.restart]
 description = "docker compose でコンテナを再起動"
 run = "docker compose restart"
+
+[tasks."v2:dev"]
+description = "v2 (Workers) のローカル開発サーバーを起動"
+dir = "v2"
+run = "npm run dev"
+
+[tasks."v2:deploy"]
+description = "v2 (Workers) を本番へデプロイ"
+dir = "v2"
+run = "npm run deploy"
+
+[tasks."v2:typecheck"]
+description = "v2 の型チェック"
+dir = "v2"
+run = "npm run typecheck"

@@ -1,0 +1,73 @@
+export function LoginPage({ alert, returnTo }: { alert?: string; returnTo?: string }) {
+  return (
+    <div class="mx-auto w-full max-w-sm px-4">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-12 h-12 bg-gray-900 text-white rounded-xl mb-4 shadow-sm">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-6 h-6"
+          >
+            <path d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+          </svg>
+        </div>
+        <h1 class="font-bold text-2xl tracking-tight text-gray-900">Cassius Ticket</h1>
+        <p class="text-sm text-gray-500 mt-2">管理者ログイン</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+        {alert && (
+          <div class="p-3 bg-red-50 text-red-600 font-medium rounded-lg text-sm mb-5 flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-5 h-5 flex-shrink-0"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            {alert}
+          </div>
+        )}
+
+        <form method="post" action="/session" class="space-y-4">
+          {returnTo && <input type="hidden" name="return_to" value={returnTo} />}
+          <div>
+            <label for="password" class="sr-only">
+              パスワード
+            </label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              required
+              autofocus
+              autocomplete="current-password"
+              placeholder="パスワードを入力"
+              maxlength={72}
+              class="block w-full rounded-xl border border-gray-300 px-4 py-3 text-base focus:border-gray-900 focus:ring focus:ring-gray-200 transition-shadow bg-gray-50 focus:bg-white"
+            />
+          </div>
+
+          <div class="pt-2">
+            <button
+              type="submit"
+              class="w-full rounded-xl px-4 py-3.5 bg-gray-900 hover:bg-gray-800 text-white font-bold shadow-md cursor-pointer transition-transform active:scale-95"
+            >
+              ログイン
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
