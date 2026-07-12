@@ -38,6 +38,7 @@
 !/app/assets/builds/.keep
 
 # v2 (Cloudflare Workers)
+/.wrangler
 /v2/node_modules
 /v2/.wrangler
 /v2/.dev.vars
