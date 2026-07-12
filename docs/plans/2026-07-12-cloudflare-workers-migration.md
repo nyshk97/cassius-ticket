@@ -143,3 +143,4 @@ enum は integer（event.status: 0=open/1=closed、order.payment_status: 0=unpai
 - バリデーションメッセージは英語 → 日本語に変更
 - HTTP メソッドは Rails の PATCH/DELETE (`_method` override) を使わず、POST + 専用パス（`/delete`, `/toggle_status` 等）に変更。GET の URL は旧アプリと完全互換を維持
 - 削除確認は turbo_confirm → `data-confirm` 属性 + vanilla JS の confirm() に変更
+- CI の `scan_ruby`（brakeman + bundler-audit）と `scan_js`（importmap audit）を Phase 8 を待たず削除（2026-07-12）。本番切替済みの旧 Rails コードに対する CVE 検出で main の CI が落ち続けるため。lint (rubocop) のみ残し、CI 全体の TS 化は Phase 8 で実施
